@@ -1,0 +1,134 @@
+/* css reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* main */
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("./images/background.png");
+  filter: opacity(75%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.name-input {
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(111, 111, 111);
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.bless-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgb(111, 111, 111);
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.text-count {
+  text-align: right;
+  font-size: 18px;
+  color: rgb(28, 28, 28);
+  text-shadow: 0.1em 0.1em 0.2em rgb(74, 74, 74)
+}
+
+.send {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.send_btn {
+  background: rgba(78, 237, 255, 0.6);
+  font-size: 18px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(3, 132, 155);
+}
+
+.send_btn:active {
+  background: rgb(78, 237, 255);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 20%;
+  background: rgba(250, 179, 128, 0.792);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+  padding: 0 15px;
+  z-index: 999;
+  font-size: 20px;
+  line-height: 1.5;
+  color: rgb(98, 98, 98);
+  border: 1px solid rgb(85, 85, 85);
+}
+
+.modal button {
+  background: rgba(255, 140, 58, 0.792);
+  font-size: 18px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  border: 1px solid 1px solid rgb(85, 85, 85);
+  margin-top: 20px;
+}

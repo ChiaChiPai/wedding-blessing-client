@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <title>Happiness Send</title>
+</head>
+<body>
+  <main class="container">
+    <section class="content">
+      <div>
+        <input type="text" name="name" id="name" placeholder="請問怎麼稱呼您" maxlength="5" class="name-input">
+      </div>
+      <div>
+        <textarea name="blessing" id="blessing" rows="10" maxlength="50" placeholder="請留下給新人的祝福" class="bless-input"></textarea>
+        <p class="text-count"><span id="count">0</span>/50</p>
+      </div>
+      <div class="send">
+        <button id="send" class="send_btn">送出</button>
+      </div>
+    </section>
+  </main>
+  <section id="modal" class="modal" style="display: none;">
+    <div id="modal-text"></div>
+    <button id="modal-btn">OK</button>
+  </section>
+  <script type="module">
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCwVTYtyUPnFW-q5Crh8gCrKK1sSJvXLWI",
+      authDomain: "wedding-blessing.firebaseapp.com",
+      projectId: "wedding-blessing",
+      storageBucket: "wedding-blessing.appspot.com",
+      messagingSenderId: "1027424395640",
+      appId: "1:1027424395640:web:534c3780b3aee2c2c8288d"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore()
+
+    const expire = () => {
+      const now = new Date().getTime()
+      const existTime = localStorage.getItem('timer') ?  localStorage.getItem('timer') : 0
+
+      if(now - existTime > 60 * 1000) {
+        localStorage.removeItem('timer')
+      } else {
+        document.getElementById("modal").style.display = "flex"
+        document.getElementById("modal-text").innerHTML = `
+          再次祝福請稍候 1 分鐘後再試
+        `
+        return true
+      }
+    }
+
+    document.getElementById("send").addEventListener("click", () => {
+      if(expire()) return
+
+      const name = document.getElementById("name").value
+      const msg = document.getElementById("blessing").value
+
+      if(name && msg) {
+        db.collection("blessing").add({
+          name,
+          msg,
+          timestamp: new Date().getTime(),
+          read: false
+        })
+        .then((docRef) => {
+          localStorage.setItem('timer', new Date().getTime());
+          document.getElementById("name").value = ''
+          document.getElementById("blessing").value = ''
+          document.getElementById("modal").style.display = "flex"
+          document.getElementById("modal-text").innerHTML = `
+            感謝您的祝福，也祝您幸福！
+          `
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+      } else {
+        document.getElementById("modal").style.display = "flex"
+        document.getElementById("modal-text").innerHTML = `
+          請填寫上姓名和祝福的話
+        `
+        return
+      }
+    })
+
+    document.getElementById("modal-btn").addEventListener("click", () => {
+      document.getElementById("modal").style.display = "none"
+    })
+
+    document.getElementById("blessing").addEventListener("input", () => {
+      const textLength = document.getElementById("blessing").value
+      document.getElementById("count").innerHTML = textLength.length
+    })
+  </script>
+</body>
+</html>
