@@ -64,13 +64,14 @@
       const msg = document.getElementById("blessing").value
 
       if(name && msg) {
-        db.collection("blessing").add({
+        const timestamp = String(new Date().getTime())
+        db.collection("blessing").doc(timestamp).set({
           name,
           msg,
-          timestamp: new Date().getTime(),
+          timestamp,
           read: false
         })
-        .then((docRef) => {
+        .then(() => {
           localStorage.setItem('timer', new Date().getTime());
           document.getElementById("name").value = ''
           document.getElementById("blessing").value = ''
