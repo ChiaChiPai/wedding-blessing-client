@@ -62,8 +62,18 @@
 
       const name = document.getElementById("name").value
       const msg = document.getElementById("blessing").value
+      const sendBtnDom = document.getElementById("send")
+
+      if(!navigator.onLine) {
+        document.getElementById("modal").style.display = "flex"
+        document.getElementById("modal-text").innerHTML = `
+          網路不穩定，請稍候再試
+        `
+        return
+      }
 
       if(name && msg) {
+        sendBtnDom.disabled = true
         const timestamp = String(new Date().getTime())
         db.collection("blessing").doc(timestamp).set({
           name,
@@ -72,6 +82,7 @@
           read: false
         })
         .then(() => {
+          sendBtnDom.disabled = false
           localStorage.setItem('timer', new Date().getTime());
           document.getElementById("name").value = ''
           document.getElementById("blessing").value = ''
@@ -81,6 +92,11 @@
           `
         })
         .catch((error) => {
+          sendBtnDom.disabled = false
+          document.getElementById("modal").style.display = "flex"
+          document.getElementById("modal-text").innerHTML = `
+            系統異常，請稍後再試
+          `
           console.error("Error adding document: ", error);
         });
       } else {
